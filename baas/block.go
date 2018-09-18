@@ -33,7 +33,7 @@ func GetBlock(blocknum uint64) (*models.Block, error) {
 	}
 	block := &models.Block{}
 	block.BlockNum = ledgerBlock.Header.Number
-	block.DataHash = hex.EncodeToString(ledgerBlock.Header.DataHash)
+	// block.DataHash = hex.EncodeToString(ledgerBlock.Header.DataHash)
 	block.PreHash = hex.EncodeToString(ledgerBlock.Header.PreviousHash)
 	block.BlockHash = hex.EncodeToString(util.ComputeSHA256(tobytes(ledgerBlock.Header)))
 	block.TxCount = len(ledgerBlock.Data.Data)
@@ -78,7 +78,7 @@ func GetBlocks(blocknums ...uint64) ([]*models.Block, error) {
 		}
 		block := &models.Block{}
 		block.BlockNum = ledgerBlock.Header.Number
-		block.DataHash = hex.EncodeToString(ledgerBlock.Header.DataHash)
+		// block.DataHash = hex.EncodeToString(ledgerBlock.Header.DataHash)
 		block.PreHash = hex.EncodeToString(ledgerBlock.Header.PreviousHash)
 		block.BlockHash = hex.EncodeToString(util.ComputeSHA256(tobytes(ledgerBlock.Header)))
 		block.TxCount = len(ledgerBlock.Data.Data)
