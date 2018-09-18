@@ -41,15 +41,14 @@ func main() {
 			go func(n uint64) {
 				block, err := baas.GetBlock(n)
 				if err == nil {
-					fmt.Println("insert>%d", n)
+					fmt.Println(fmt.Sprintf("insert block %d", n))
 					block.Insert()
 				}
 				txs, err := baas.GetTxsByBlockNum(n)
 				if err == nil {
 					for _, tx := range txs {
-						fmt.Println("insert>>>>>%s", tx.TxID)
-						_, err := tx.Insert()
-						fmt.Println("errinsert   %s", err)
+						fmt.Println(fmt.Sprintf("insert tx %s", tx.TxID))
+						tx.Insert()
 					}
 				}
 				complete <- true
