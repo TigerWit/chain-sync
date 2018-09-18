@@ -1,0 +1,24 @@
+package models
+
+import (
+	"time"
+)
+
+type Block struct {
+	BlockNum  uint64     `xorm:"blocknum" json:"block_num"`
+	DataHash  string     `xorm:"datahash" json:"data_hash"`
+	PreHash   string     `xorm:"prehash" json:"pre_hash"`
+	BlockHash string     `xorm:"blockhash" json:"block_hash"`
+	TxCount   int        `xorm:"txcount" json:"tx_count"`
+	Createdt  *time.Time `xorm:"createdt" json:"createdt"`
+}
+
+func (b *Block) Insert() (int64, error) {
+	return engine.Insert(b)
+}
+
+func GetLastBlocks(num int) ([]*Block, error) {
+	blocks := []*Block{}
+	err := engine.Limit(num).Desc("blocknum").Find(&blocks)
+	return blocks, err
+}
