@@ -6,7 +6,6 @@ import (
 
 type Block struct {
 	BlockNum  uint64     `xorm:"blocknum" json:"block_num"`
-	DataHash  string     `xorm:"datahash" json:"data_hash"`
 	PreHash   string     `xorm:"prehash" json:"pre_hash"`
 	BlockHash string     `xorm:"blockhash" json:"block_hash"`
 	TxCount   int        `xorm:"txcount" json:"tx_count"`
