@@ -28,7 +28,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Uint64Var(&from, "from", 0, "The beginning block num.")
-	flag.Uint64Var(&to, "to", chaininfo.GetHeight(), "The beginning block num.")
+	flag.Uint64Var(&to, "to", chaininfo.GetHeight(), "The end block num.")
 	flag.Parse()
 
 	for i := 0; i < GONUM; i++ {

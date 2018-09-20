@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang/protobuf/proto"
+	"github.com/hyperledger/fabric-sdk-go/pkg/client/event"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/ledger"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
@@ -55,6 +56,18 @@ func GetBlock(blocknum uint64) (*models.Block, error) {
 	createdt := time.Unix(chhd.GetTimestamp().Seconds, int64(chhd.GetTimestamp().GetNanos()))
 	block.Createdt = &createdt
 	return block, nil
+}
+
+func GetBlockEventClient() (*event.Client, error) {
+	sdk, err := fabsdk.New(config.FromFile("./sdk.yaml"))
+	if err != nil {
+		fmt.Println(fmt.Sprintf("Failed to create new SDK: %s", err))
+	}
+	// defer sdk.Close()
+	channelProvider := sdk.ChannelContext(channelID,
+		fabsdk.WithUser(user),
+		fabsdk.WithOrg(org))
+	return event.New(channelProvider, event.WithBlockEvents())
 }
 
 func GetBlocks(blocknums ...uint64) ([]*models.Block, error) {

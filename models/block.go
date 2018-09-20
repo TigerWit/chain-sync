@@ -9,7 +9,7 @@ type Block struct {
 	PreHash   string     `xorm:"prehash" json:"pre_hash"`
 	BlockHash string     `xorm:"blockhash" json:"block_hash"`
 	TxCount   int        `xorm:"txcount" json:"tx_count"`
-	Createdt  *time.Time `xorm:"createdt" json:"createdt"`
+	Createdt  *time.Time `xorm:"createdt" json:"created"`
 }
 
 func (b *Block) Insert() (int64, error) {
