@@ -23,3 +23,9 @@ func GetLastTxs(num int) ([]*Transaction, error) {
 	err := engine.Limit(num).Desc("createdt").Find(&txs)
 	return txs, err
 }
+
+func GetTxCount() (uint64, error) {
+	tx := new(Transaction)
+	count, err := engine.Count(tx)
+	return uint64(count), err
+}

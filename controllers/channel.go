@@ -53,6 +53,7 @@ func (m *MainController) GetChannelInfo() {
 	chainInfo.Height = chainInfoResponse.BCI.GetHeight()
 	chainInfo.CurrentBlockHash = chainInfoResponse.BCI.GetCurrentBlockHash()
 	chainInfo.PreviousBlockHash = chainInfoResponse.BCI.GetPreviousBlockHash()
+	chainInfo.TxCount, _ = models.GetTxCount()
 	rData.ChainInfo = chainInfo
 	m.Data["json"] = rData
 	m.ServeJSON()
