@@ -7,7 +7,7 @@ import (
 type Transaction struct {
 	BlockNum uint64     `xorm:"blocknum" json:"block_num"`
 	TxID     string     `xorm:"txid" json:"tx_id"`
-	Createdt *time.Time `xorm:"createdt" json:"createdt"`
+	Createdt *time.Time `xorm:"createdt" json:"created"`
 }
 
 func (t *Transaction) Insert() (int64, error) {
