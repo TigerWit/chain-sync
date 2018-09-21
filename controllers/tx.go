@@ -9,7 +9,6 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	cb "github.com/hyperledger/fabric/protos/common"
-	"time"
 )
 
 type BlockInfo struct {
@@ -93,7 +92,8 @@ func (m *MainController) GetTxsByBlocknum() {
 		ids = append(ids, chhd.GetTxId())
 	}
 	blockInfo.TxIds = ids
-	blockInfo.Block, _ = baas.GetBlock(blocknum)
+	block, _ := baas.GetBlock(blocknum)
+	blockInfo.Block = *block
 	status.Success()
 	rData.Status = status
 	rData.BlockInfo = blockInfo
