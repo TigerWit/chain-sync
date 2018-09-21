@@ -18,7 +18,7 @@ type BlockInfo struct {
 
 type RTData struct {
 	Status    *Status    `json:"status"`
-	BlockInfo *BlockInfo `block_info`
+	BlockInfo *BlockInfo `json:"block_info"`
 }
 
 func (m *MainController) GetTxsByBlocknum() {
