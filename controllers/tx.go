@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"chain-sync/baas"
 	"chain-sync/models"
 	"fmt"
 	"github.com/golang/protobuf/proto"
@@ -58,13 +59,8 @@ func (m *MainController) GetTxsByBlocknum() {
 		return
 	}
 	blockInfo := &BlockInfo{}
-	blockInfo.BlockNum = ledgerBlock.Header.Number
-	blockInfo.PreHash = hex.EncodeToString(ledgerBlock.Header.PreviousHash)
-	blockInfo.BlockHash = hex.EncodeToString(util.ComputeSHA256(tobytes(ledgerBlock.Header)))
-	blockInfo.TxCount = len(ledgerBlock.Data.Data)
-
 	var ids []string
-	for index, txEnvBytes := range ledgerBlock.GetData().GetData() {
+	for _, txEnvBytes := range ledgerBlock.GetData().GetData() {
 		txEnv := &cb.Envelope{}
 		if err := proto.Unmarshal(txEnvBytes, txEnv); err != nil {
 			status.Code = 500
@@ -94,13 +90,10 @@ func (m *MainController) GetTxsByBlocknum() {
 			m.ServeJSON()
 			return
 		}
-		if index == 0 {
-			createdt := time.Unix(chhd.GetTimestamp().Seconds, int64(chhd.GetTimestamp().GetNanos()))
-			blockInfo.Createdt = &createdt
-		}
 		ids = append(ids, chhd.GetTxId())
 	}
 	blockInfo.TxIds = ids
+	blockInfo.Block, _ = baas.GetBlock(blocknum)
 	status.Success()
 	rData.Status = status
 	rData.BlockInfo = blockInfo
