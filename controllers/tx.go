@@ -8,11 +8,17 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	cb "github.com/hyperledger/fabric/protos/common"
+	"time"
 )
 
+type BlockInfo struct {
+	models.Block
+	TxIds []string `json:"tx_ids"`
+}
+
 type RTData struct {
-	Status *Status  `json:"status"`
-	TxIds  []string `json:"tx_ids"`
+	Status    *Status    `json:"status"`
+	BlockInfo *BlockInfo `block_info`
 }
 
 func (m *MainController) GetTxsByBlocknum() {
@@ -51,9 +57,14 @@ func (m *MainController) GetTxsByBlocknum() {
 		m.ServeJSON()
 		return
 	}
+	blockInfo := &BlockInfo{}
+	blockInfo.BlockNum = ledgerBlock.Header.Number
+	blockInfo.PreHash = hex.EncodeToString(ledgerBlock.Header.PreviousHash)
+	blockInfo.BlockHash = hex.EncodeToString(util.ComputeSHA256(tobytes(ledgerBlock.Header)))
+	blockInfo.TxCount = len(ledgerBlock.Data.Data)
 
 	var ids []string
-	for _, txEnvBytes := range ledgerBlock.GetData().GetData() {
+	for index, txEnvBytes := range ledgerBlock.GetData().GetData() {
 		txEnv := &cb.Envelope{}
 		if err := proto.Unmarshal(txEnvBytes, txEnv); err != nil {
 			status.Code = 500
@@ -83,11 +94,16 @@ func (m *MainController) GetTxsByBlocknum() {
 			m.ServeJSON()
 			return
 		}
+		if index == 0 {
+			createdt := time.Unix(chhd.GetTimestamp().Seconds, int64(chhd.GetTimestamp().GetNanos()))
+			blockInfo.Createdt = &createdt
+		}
 		ids = append(ids, chhd.GetTxId())
 	}
+	blockInfo.TxIds = ids
 	status.Success()
 	rData.Status = status
-	rData.TxIds = ids
+	rData.BlockInfo = blockInfo
 	m.Data["json"] = rData
 	m.ServeJSON()
 }
