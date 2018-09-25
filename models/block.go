@@ -20,7 +20,7 @@ func GetLastBlocks(num int) ([]*Block, error) {
 	blocks := []*Block{}
 	err := engine.Limit(num).Desc("blocknum").Find(&blocks)
 	for _, block := range blocks {
-		block.Createdt = block.Createdt.UTC().Format("2006-01-02 15:04:05")
+		block.Createdt, _ = time.Parse(TIME_LAYOUT, block.Createdt.UTC().Format(TIME_LAYOUT))
 	}
 	return blocks, err
 }
