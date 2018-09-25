@@ -21,6 +21,9 @@ func (t *Transaction) Insert() (int64, error) {
 func GetLastTxs(num int) ([]*Transaction, error) {
 	txs := []*Transaction{}
 	err := engine.Limit(num).Desc("createdt").Find(&txs)
+	for _, tx := range txs {
+		tx.Createdt = tx.Createdt.UTC().Format("2006-01-02 15:04:05")
+	}
 	return txs, err
 }
 

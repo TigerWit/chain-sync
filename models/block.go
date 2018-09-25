@@ -19,5 +19,8 @@ func (b *Block) Insert() (int64, error) {
 func GetLastBlocks(num int) ([]*Block, error) {
 	blocks := []*Block{}
 	err := engine.Limit(num).Desc("blocknum").Find(&blocks)
+	for _, block := range blocks {
+		block.Createdt = block.Createdt.UTC().Format("2006-01-02 15:04:05")
+	}
 	return blocks, err
 }
