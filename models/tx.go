@@ -22,7 +22,8 @@ func GetLastTxs(num int) ([]*Transaction, error) {
 	txs := []*Transaction{}
 	err := engine.Limit(num).Desc("createdt").Find(&txs)
 	for _, tx := range txs {
-		tx.Createdt, _ = time.Parse(TIME_LAYOUT, tx.Createdt.UTC().Format(TIME_LAYOUT))
+		Createdtf, _ := time.Parse(TIME_LAYOUT, tx.Createdt.UTC().Format(TIME_LAYOUT))
+		tx.Createdt = &Createdtf
 	}
 	return txs, err
 }
