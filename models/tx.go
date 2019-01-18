@@ -45,10 +45,10 @@ type TransactionsTest struct {
 func GetOriginByHash(mode, hash string) (string, error){
 	if mode == "test"{
 		tx := &TransactionsTest{}
-		err := engineFct.Where("hash_value = ?",hash).Get(tx)
+		_, err := engineFct.Where("hash_value = ?",hash).Get(tx)
 		return tx.OriginData,err
 	}
 	tx := &Transactions{}
-	err := engineFct.Where("hash_value = ?",hash).Get(tx)
+	_, err := engineFct.Where("hash_value = ?",hash).Get(tx)
 	return tx.OriginData,err
 }
