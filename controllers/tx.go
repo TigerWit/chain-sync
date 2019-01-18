@@ -140,7 +140,7 @@ type OriginData struct {
 	Volume     string `json:"volume"`
 	OpenTime   int64  `json:"open_time"`
 	OpenPrice  string `json:"open_price"`
-	CloseTime  int64  `json:"close_timet"`
+	CloseTime  int64  `json:"close_time"`
 	ClosePrice string `json:"close_price"`
 }
 
