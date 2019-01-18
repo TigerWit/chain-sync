@@ -33,3 +33,22 @@ func GetTxCount() (uint64, error) {
 	count, err := engine.Count(tx)
 	return uint64(count), err
 }
+
+type Transactions struct {
+	OriginData string `xorm:"origin_data" json:"origin_data"`
+}
+
+type TransactionsTest struct {
+	OriginData string `xorm:"origin_data" json:"origin_data"`
+}
+
+func GetOriginByHash(mode, hash string) (string, error){
+	if mode == "test"{
+		tx := &TransactionsTest{}
+		err := engineFct.Where("hash_value = ?",hash).Get(tx)
+		return tx.OriginData,err
+	}
+	tx := &Transactions{}
+	err := engineFct.Where("hash_value = ?",hash).Get(tx)
+	return tx.OriginData,err
+}
