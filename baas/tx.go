@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/ledger"
-	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
+	// "github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	cb "github.com/hyperledger/fabric/protos/common"
 	"time"
@@ -14,12 +14,7 @@ import (
 
 func GetTxsByBlockNum(blocknum uint64) ([]*models.Transaction, error) {
 	txs := []*models.Transaction{}
-	sdk, err := fabsdk.New(config.FromFile("./sdk.yaml"))
-	if err != nil {
-		return txs, errors.New(fmt.Sprintf("Failed to create new SDK: %s", err))
-	}
-	defer sdk.Close()
-	channelProvider := sdk.ChannelContext(channelID,
+	channelProvider := SDKInstance.ChannelContext(channelID,
 		fabsdk.WithUser(user),
 		fabsdk.WithOrg(org))
 	ledgerClient, err := ledger.New(channelProvider)

@@ -20,7 +20,7 @@ var (
 )
 
 func sync(n uint64) {
-	block, err := baas.GetBlock(n)
+	block, err := baas.GetBlockNew(n)
 	if err == nil {
 		fmt.Println(fmt.Sprintf("insert block %d", n))
 		block.Insert()
