@@ -1,6 +1,7 @@
 package baas
 
 import (
+	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 
@@ -11,6 +12,7 @@ import (
 var (
 	EngineB *xorm.Engine
 	SDKInstance *fabsdk.FabricSDK
+	originBlockNum int64
 )
 
 func init() {
@@ -18,4 +20,5 @@ func init() {
 	EngineB.SetMaxOpenConns(50)
 
 	SDKInstance, _ = fabsdk.New(config.FromFile("./sdk.yaml"))
+	originBlockNum, _ = beego.AppConfig.Int64("originalblocknum")
 }

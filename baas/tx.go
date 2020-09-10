@@ -4,6 +4,7 @@ import (
 	"chain-sync/models"
 	"errors"
 	"fmt"
+	"github.com/astaxie/beego"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/ledger"
 	// "github.com/hyperledger/fabric-sdk-go/pkg/core/config"
@@ -13,6 +14,7 @@ import (
 )
 
 func GetTxsByBlockNum(blocknum uint64) ([]*models.Transaction, error) {
+	blocknum = blocknum - uint64(originBlockNum)
 	txs := []*models.Transaction{}
 	channelProvider := SDKInstance.ChannelContext(channelID,
 		fabsdk.WithUser(user),

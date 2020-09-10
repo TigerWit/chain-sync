@@ -20,7 +20,7 @@ func (t *Transaction) Insert() (int64, error) {
 
 func GetLastTxs(num int) ([]*Transaction, error) {
 	txs := []*Transaction{}
-	err := engine.Limit(num).Desc("createdt").Find(&txs)
+	err := engine.Limit(num).Desc("id").Find(&txs)
 	for _, tx := range txs {
 		Createdtf, _ := time.Parse(TIME_LAYOUT, tx.Createdt.UTC().Format(TIME_LAYOUT))
 		tx.Createdt = &Createdtf
