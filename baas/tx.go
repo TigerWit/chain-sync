@@ -4,7 +4,6 @@ import (
 	"chain-sync/models"
 	"errors"
 	"fmt"
-	"github.com/astaxie/beego"
 	"github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/ledger"
 	// "github.com/hyperledger/fabric-sdk-go/pkg/core/config"
